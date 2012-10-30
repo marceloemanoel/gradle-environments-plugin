@@ -1,0 +1,16 @@
+apply plugin: "groovy"
+apply plugin: "eclipse"
+apply plugin: "maven"
+
+group = "com.github.marceloemanoel"
+archivesBaseName="gradle-environments-plugin"
+version="0.1"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile gradleApi()
+    groovy localGroovy()
+}
