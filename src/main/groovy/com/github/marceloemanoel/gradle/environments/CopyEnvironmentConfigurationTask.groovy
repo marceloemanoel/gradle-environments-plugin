@@ -12,17 +12,16 @@ class CopyEnvironmentConfigurationTask extends DefaultTask {
 
     CopyEnvironmentConfigurationTask(){
         dependsOn("loadEnvironmentConfiguration")
-        project.task("proccessResources").dependsOn(this)
+        project.task("proccessResources").dependsOn this 
     }
 
     @TaskAction
     def copyFiles(){
-        
-        def copy = new Copy()
-        copy.from "src/main/environment/${project.environment}"
-        copy.into "src/main/resources"
-        copy.include "**/*"
-        copy.exclude ".default"
-        copy.execute()
+        project.copy {
+            from "src/main/environment/${project.environment}"
+            into "src/main/resources"
+            include "**/*"
+            exclude ".default"
+        }
     }
 }
