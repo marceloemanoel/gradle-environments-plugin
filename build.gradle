@@ -1,10 +1,15 @@
 apply plugin: "groovy"
 apply plugin: "eclipse"
 apply plugin: "maven"
+apply plugin: "signing"
 
 group = "com.github.marceloemanoel"
 archivesBaseName="gradle-environments-plugin"
 version="0.1"
+
+signing {
+    sign configurations.archives
+}
 
 repositories {
     mavenCentral()
@@ -13,4 +18,60 @@ repositories {
 dependencies {
     compile gradleApi()
     groovy localGroovy()
+}
+
+task groovydocJar(type: Jar, dependsOn: groovydoc) {
+    classifier = 'javadoc'
+    from 'build/docs/groovydoc'
+}
+ 
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+ 
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+              authentication(userName: sonatypeUsername, password: sonatypePassword)
+            }
+ 
+            pom.project {
+               name 'gradle-environments-plugin'
+               packaging 'jar'
+               description 'gradle-environment-plugin aims to help to deal with environments configurations'
+               url 'https://github.com/marceloemanoel/gradle-environments-plugin'
+ 
+               scm {
+                   url 'git@github.com:marceloemanoel/gradle-environments-plugin.git'
+                   connection 'scm:git@github.com:marceloemanoel/gradle-environments-plugin.git'
+                   developerConnection 'scm:git@github.com:marceloemanoel/gradle-environments-plugin.git'
+               }
+ 
+               licenses {
+                   license {
+                       name 'The Apache Software License, Version 2.0'
+                       url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                       distribution 'repo'
+                   }
+               }
+ 
+               developers {
+                   developer {
+                       id 'marceloemanoel'
+                       name 'Marcelo Emanoel B. Diniz'
+                   }
+               }
+           }
+        }
+    }
+}
+
+artifacts {
+    archives jar
+    archives groovydocJar
+    archives sourcesJar
 }
