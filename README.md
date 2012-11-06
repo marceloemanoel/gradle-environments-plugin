@@ -1,6 +1,6 @@
 Gradle Environments Plugin
 --------------------------
-
+[![Build Status](https://travis-ci.org/marceloemanoel/gradle-environments-plugin.png)](https://travis-ci.org/marceloemanoel/gradle-environments-plugin)
 
 
 How to Apply the plugin?
