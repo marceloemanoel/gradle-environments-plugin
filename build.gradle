@@ -7,6 +7,14 @@ group = "com.github.marceloemanoel"
 archivesBaseName="gradle-environments-plugin"
 version="0.1"
 
+if(!hasProperty("sonatypeUsername")){
+    sonatypeUsername = ""
+}
+
+if(!hasProperty("sonatypePassword")){
+    sonatypePassword = ""
+}
+
 signing {
     sign configurations.archives
 }
