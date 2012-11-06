@@ -4,7 +4,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.Copy;
 
-class EnvironmentsPlugins implements Plugin<Project> {
+class EnvironmentsPlugin implements Plugin<Project> {
 
     @Override
     public void apply(Project project) {
